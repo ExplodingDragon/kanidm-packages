@@ -1,0 +1,3 @@
+include:
+  - project: 'actions/package-project'
+    file: '/pkg-build.yml'
