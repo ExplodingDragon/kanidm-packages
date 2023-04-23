@@ -7,7 +7,7 @@ License:        MPL-2.0
 URL:            https://github.com/kanidm/kanidm
 Source0:        kanidm-v%{version}-alpha.11.tar.gz
 
-BuildRequires:  systemd-devel sqlite-devel openssl-devel pam-devel
+BuildRequires:  systemd-devel sqlite-devel openssl-devel pam-devel gcc 
 
 %description
 Kanidm is a simple and secure identity management platform,
@@ -29,16 +29,16 @@ cargo build --locked --release --target-dir target
 %{__install} -Dm0644 LICENSE.md %{buildroot}/%{_defaultlicensedir}/%{name}-server-%{version}/COPYING
 %{__install} -Dm0644 LICENSE.md %{buildroot}/%{_defaultlicensedir}/%{name}-unixd-clients-%{version}/COPYING
 %{__install} -Dm644 examples/config %{buildroot}/etc/kanidm/config
-%{__install} -Dm755 target/release/kanidm %{buildroot}/usr/bin/kanidm
+%{__install} -Dm755 target/release/kanidm %{buildroot}/usr/sbin/kanidm
 %{__install} -Dm644 target/release/build/completions/_kanidm %{buildroot}/usr/share/zsh/site-functions/_kanidm
-%{__install} -Dm644 target/release/build/completions/kanidm.bash %{buildroot}/usr/share/bash-completion/completions/kanidm.sh
+%{__install} -Dm755 target/release/build/completions/kanidm.bash %{buildroot}/usr/share/bash-completion/completions/kanidm
 
 #Server
 %{__install} -Dm644 examples/server.toml %{buildroot}/etc/kanidm/server.toml
 %{__install} -Dm644 platform/opensuse/kanidmd.service %{buildroot}/usr/lib/systemd/system/kanidmd.service
-%{__install} -Dm755 target/release/kanidmd %{buildroot}/usr/bin/kanidmd
+%{__install} -Dm755 target/release/kanidmd %{buildroot}/usr/sbin/kanidmd
 %{__install} -Dm644 target/release/build/completions/_kanidmd %{buildroot}/usr/share/zsh/site-functions/_kanidmd
-%{__install} -Dm644 target/release/build/completions/kanidmd.bash %{buildroot}/usr/share/bash-completion/completions/kanidmd.sh
+%{__install} -Dm755 target/release/build/completions/kanidmd.bash %{buildroot}/usr/share/bash-completion/completions/kanidmd
 %{__install} -dv %{buildroot}/usr/share/kanidm/ui/
 cp -r kanidmd_web_ui/pkg %{buildroot}/usr/share/kanidm/ui/
 
@@ -50,13 +50,13 @@ cp -r kanidmd_web_ui/pkg %{buildroot}/usr/share/kanidm/ui/
 %{__install} -Dm755 target/release/libnss_kanidm.so "%{buildroot}/usr/lib/libnss_kanidm.so.2"
 %{__install} -Dm755 target/release/libpam_kanidm.so "%{buildroot}/usr/lib/security/pam_kanidm.so"
 
-%{__install} -Dm755 target/release/kanidm_cache_clear "%{buildroot}/usr/bin/kanidm_cache_clear"
-%{__install} -Dm755 target/release/kanidm_cache_invalidate "%{buildroot}/usr/bin/kanidm_cache_invalidate"
-%{__install} -Dm755 target/release/kanidm_ssh_authorizedkeys "%{buildroot}/usr/bin/kanidm_ssh_authorizedkeys"
-%{__install} -Dm755 target/release/kanidm_ssh_authorizedkeys_direct "%{buildroot}/usr/bin/kanidm_ssh_authorizedkeys_direct"
-%{__install} -Dm755 target/release/kanidm_unixd "%{buildroot}/usr/bin/kanidm_unixd"
-%{__install} -Dm755 target/release/kanidm_unixd_status "%{buildroot}/usr/bin/kanidm_unixd_status"
-%{__install} -Dm755 target/release/kanidm_unixd_tasks "%{buildroot}/usr/bin/kanidm_unixd_tasks"
+%{__install} -Dm755 target/release/kanidm_cache_clear "%{buildroot}/usr/sbin/kanidm_cache_clear"
+%{__install} -Dm755 target/release/kanidm_cache_invalidate "%{buildroot}/usr/sbin/kanidm_cache_invalidate"
+%{__install} -Dm755 target/release/kanidm_ssh_authorizedkeys "%{buildroot}/usr/sbin/kanidm_ssh_authorizedkeys"
+%{__install} -Dm755 target/release/kanidm_ssh_authorizedkeys_direct "%{buildroot}/usr/sbin/kanidm_ssh_authorizedkeys_direct"
+%{__install} -Dm755 target/release/kanidm_unixd "%{buildroot}/usr/sbin/kanidm_unixd"
+%{__install} -Dm755 target/release/kanidm_unixd_status "%{buildroot}/usr/sbin/kanidm_unixd_status"
+%{__install} -Dm755 target/release/kanidm_unixd_tasks "%{buildroot}/usr/sbin/kanidm_unixd_tasks"
 
 %{__install} -Dm644 target/release/build/completions/_kanidm_ssh_authorizedkeys_direct "%{buildroot}/usr/share/zsh/site-functions/_kanidm_ssh_authorizedkeys_direct"
 %{__install} -Dm644 target/release/build/completions/_kanidm_cache_clear "%{buildroot}/usr/share/zsh/site-functions/_kanidm_cache_clear"
@@ -64,11 +64,11 @@ cp -r kanidmd_web_ui/pkg %{buildroot}/usr/share/kanidm/ui/
 %{__install} -Dm644 target/release/build/completions/_kanidm_ssh_authorizedkeys "%{buildroot}/usr/share/zsh/site-functions/_kanidm_ssh_authorizedkeys"
 %{__install} -Dm644 target/release/build/completions/_kanidm_unixd_status "%{buildroot}/usr/share/zsh/site-functions/_kanidm_unixd_status"
 
-%{__install} -Dm644 target/release/build/completions/kanidm_ssh_authorizedkeys_direct.bash "%{buildroot}/usr/share/bash-completion/completions/kanidm_ssh_authorizedkeys_direct.sh"
-%{__install} -Dm644 target/release/build/completions/kanidm_cache_clear.bash "%{buildroot}/usr/share/bash-completion/completions/kanidm_cache_clear.sh"
-%{__install} -Dm644 target/release/build/completions/kanidm_cache_invalidate.bash "%{buildroot}/usr/share/bash-completion/completions/kanidm_cache_invalidate.sh"
-%{__install} -Dm644 target/release/build/completions/kanidm_ssh_authorizedkeys.bash "%{buildroot}/usr/share/bash-completion/completions/kanidm_ssh_authorizedkeys.sh"
-%{__install} -Dm644 target/release/build/completions/kanidm_unixd_status.bash "%{buildroot}/usr/share/bash-completion/completions/kanidm_unixd_status.sh"
+%{__install} -Dm755 target/release/build/completions/kanidm_ssh_authorizedkeys_direct.bash "%{buildroot}/usr/share/bash-completion/completions/kanidm_ssh_authorizedkeys_direct"
+%{__install} -Dm755 target/release/build/completions/kanidm_cache_clear.bash "%{buildroot}/usr/share/bash-completion/completions/kanidm_cache_clear"
+%{__install} -Dm755 target/release/build/completions/kanidm_cache_invalidate.bash "%{buildroot}/usr/share/bash-completion/completions/kanidm_cache_invalidate"
+%{__install} -Dm755 target/release/build/completions/kanidm_ssh_authorizedkeys.bash "%{buildroot}/usr/share/bash-completion/completions/kanidm_ssh_authorizedkeys"
+%{__install} -Dm755 target/release/build/completions/kanidm_unixd_status.bash "%{buildroot}/usr/share/bash-completion/completions/kanidm_unixd_status"
 
 
 %package client
@@ -79,9 +79,9 @@ kanidm client to interact with kanidm identity management server.
 %files client
 %license %{_defaultlicensedir}/%{name}-client-%{version}/COPYING
 %config(noreplace) /etc/kanidm/config
-/usr/bin/kanidm
+/usr/sbin/kanidm
 /usr/share/zsh/site-functions/_kanidm
-/usr/share/bash-completion/completions/kanidm.sh
+/usr/share/bash-completion/completions/kanidm
 
 %package server
 Summary: kanidm server for idendity management, supports RADIUS, ssh key management.
@@ -91,10 +91,10 @@ kanidm server for idendity management, supports RADIUS, ssh key management.
 %files server
 %config(noreplace) /etc/kanidm/server.toml
 %license %{_defaultlicensedir}/%{name}-server-%{version}/COPYING
-/usr/bin/kanidmd
+/usr/sbin/kanidmd
 /usr/lib/systemd/system/kanidmd.service
 /usr/share/zsh/site-functions/_kanidmd
-/usr/share/bash-completion/completions/kanidmd.sh
+/usr/share/bash-completion/completions/kanidmd
 /usr/share/kanidm/ui
 
 %post server
@@ -121,23 +121,23 @@ kanidm localhost resolver to resolve posix identities to a kanidm instance.
 /usr/lib/systemd/system/kanidm-unixd-tasks.service
 /usr/lib/libnss_kanidm.so.2
 /usr/lib/security/pam_kanidm.so
-/usr/bin/kanidm_cache_clear
-/usr/bin/kanidm_cache_invalidate
-/usr/bin/kanidm_ssh_authorizedkeys
-/usr/bin/kanidm_ssh_authorizedkeys_direct
-/usr/bin/kanidm_unixd
-/usr/bin/kanidm_unixd_status
-/usr/bin/kanidm_unixd_tasks
+/usr/sbin/kanidm_cache_clear
+/usr/sbin/kanidm_cache_invalidate
+/usr/sbin/kanidm_ssh_authorizedkeys
+/usr/sbin/kanidm_ssh_authorizedkeys_direct
+/usr/sbin/kanidm_unixd
+/usr/sbin/kanidm_unixd_status
+/usr/sbin/kanidm_unixd_tasks
 /usr/share/zsh/site-functions/_kanidm_ssh_authorizedkeys_direct
 /usr/share/zsh/site-functions/_kanidm_cache_clear
 /usr/share/zsh/site-functions/_kanidm_cache_invalidate
 /usr/share/zsh/site-functions/_kanidm_ssh_authorizedkeys
 /usr/share/zsh/site-functions/_kanidm_unixd_status
-/usr/share/bash-completion/completions/kanidm_ssh_authorizedkeys_direct.sh
-/usr/share/bash-completion/completions/kanidm_cache_clear.sh
-/usr/share/bash-completion/completions/kanidm_cache_invalidate.sh
-/usr/share/bash-completion/completions/kanidm_ssh_authorizedkeys.sh
-/usr/share/bash-completion/completions/kanidm_unixd_status.sh
+/usr/share/bash-completion/completions/kanidm_ssh_authorizedkeys_direct
+/usr/share/bash-completion/completions/kanidm_cache_clear
+/usr/share/bash-completion/completions/kanidm_cache_invalidate
+/usr/share/bash-completion/completions/kanidm_ssh_authorizedkeys
+/usr/share/bash-completion/completions/kanidm_unixd_status
 
 
 %post unixd-clients
